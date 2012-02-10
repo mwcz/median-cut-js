@@ -24,8 +24,8 @@
 //  
 //  3. Split the box into 2 regions at median of the sorted list.
 //  
-//  4. Repeat the above process until the original color space has been divided into N regions
-//     where N is the number of colors you want.
+//  4. Repeat the above process until the original color space has been divided
+//     into N regions where N is the number of colors you want.
 
 var MedianCut = function() {
 
@@ -129,7 +129,9 @@ var MedianCut = function() {
     };
 
     return {
-        // This is a private function (listed here in case it needs to be made public easily :) 
+        // This is a private function (listed here in case it needs to be made 
+        // public easily :) 
+
         //get_boxes                : get_boxes
 
         // These are exposed (public) functions
@@ -200,10 +202,6 @@ var Box = function() {
         // represents steps 2 and 3 of the algorithm, as written at the top 
         // of this file.
 
-        if( data.length <  0 ) console.error( "can't split; box is screwed up. (box has less than 0 length)" );
-        if( data.length == 0 ) console.error( "can't split; box is empty!" );
-        if( data.length == 1 ) console.error( "can't split; box has one element!" );
-
         sort();
 
         var med   = median_pos();
@@ -272,13 +270,19 @@ var Box = function() {
 
         for( var i = data.length - 1; i >= 0; --i ) {
 
-            minmax[0].min = ( data[i][0] < minmax[0].min ) ? data[i][0] : minmax[0].min; // r
-            minmax[1].min = ( data[i][1] < minmax[1].min ) ? data[i][1] : minmax[1].min; // g
-            minmax[2].min = ( data[i][2] < minmax[2].min ) ? data[i][2] : minmax[2].min; // b
+            minmax[0].min = ( data[i][0] < minmax[0].min ) ? 
+                              data[i][0] : minmax[0].min; // r
+            minmax[1].min = ( data[i][1] < minmax[1].min ) ?
+                              data[i][1] : minmax[1].min; // g
+            minmax[2].min = ( data[i][2] < minmax[2].min ) ?
+                              data[i][2] : minmax[2].min; // b
 
-            minmax[0].max = ( data[i][0] > minmax[0].max ) ? data[i][0] : minmax[0].max; // r
-            minmax[1].max = ( data[i][1] > minmax[1].max ) ? data[i][1] : minmax[1].max; // g
-            minmax[2].max = ( data[i][2] > minmax[2].max ) ? data[i][2] : minmax[2].max; // b
+            minmax[0].max = ( data[i][0] > minmax[0].max ) ?
+                              data[i][0] : minmax[0].max; // r
+            minmax[1].max = ( data[i][1] > minmax[1].max ) ?
+                              data[i][1] : minmax[1].max; // g
+            minmax[2].max = ( data[i][2] > minmax[2].max ) ?
+                              data[i][2] : minmax[2].max; // b
         }
 
         return minmax;
