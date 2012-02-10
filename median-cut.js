@@ -43,9 +43,10 @@ var MedianCut = function() {
     get_longest_box_index = function() {
 
         // find the box with the longest axis of them all...
-        var longest_box_index = 0;
+        var longest_box_index = 0,
+            box_index;
 
-        for( var box_index = boxes.length - 1; box_index >= 0; --box_index ) {
+        for( box_index = boxes.length - 1; box_index >= 0; --box_index ) {
             if( boxes[ box_index ] > longest_box_index ) {
                 longest_box_index = boxes[ box_index ];
             }
@@ -69,15 +70,20 @@ var MedianCut = function() {
             i,
             longest_box_index = get_longest_box_index(),
             longest_axis      = boxes[ longest_box_index ].get_longest_axis(),
-            max_box_length    = longest_axis.length * ( 1 - _threshold );
+            max_box_length    = longest_axis.length * ( 1 - _threshold ),
+            box_to_split,
+            split_boxes,
+            box1,
+            box2,
+            i;
 
         do {
 
             // remove the longest box and split it
-            var box_to_split = boxes.splice( longest_box_index, 1 )[0];
-            var split_boxes = box_to_split.split();
-            var box1 = split_boxes[0];
-            var box2 = split_boxes[1];
+            box_to_split = boxes.splice( longest_box_index, 1 )[0];
+            split_boxes = box_to_split.split();
+            box1 = split_boxes[0];
+            box2 = split_boxes[1];
 
             // then push the resulting boxes into the boxes array
             boxes.push( box1 );
@@ -91,7 +97,7 @@ var MedianCut = function() {
 
         // palette is complete.  get the average colors from each box
         // and push them into the values array, then return.
-        for( var i = boxes.length - 1; i >= 0; --i ) {
+        for( i = boxes.length - 1; i >= 0; --i ) {
             values.push( boxes[i].average() );
         }
 
@@ -101,17 +107,22 @@ var MedianCut = function() {
 
     get_fixed_size_palette = function( _number ) {
 
-        var values = [];
+        var values = [],
+            i,
+            box_to_split,
+            split_boxes,
+            box1,
+            box2;
 
-        for( var i = _number - 1; i >= 0; --i ) {
+        for( i = _number - 1; i >= 0; --i ) {
 
             longest_box_index = get_longest_box_index();
 
             // remove the longest box and split it
-            var box_to_split = boxes.splice( longest_box_index, 1 )[0];
-            var split_boxes = box_to_split.split();
-            var box1 = split_boxes[0];
-            var box2 = split_boxes[1];
+            box_to_split = boxes.splice( longest_box_index, 1 )[0];
+            split_boxes = box_to_split.split();
+            box1 = split_boxes[0];
+            box2 = split_boxes[1];
 
             // then push the resulting boxes into the boxes array
             boxes.push( box1 );
@@ -120,7 +131,7 @@ var MedianCut = function() {
 
         // palette is complete.  get the average colors from each box
         // and push them into the values array, then return.
-        for( var i = _number - 1; i >= 0; --i ) {
+        for( i = _number - 1; i >= 0; --i ) {
             values.push( boxes[i].average() );
         }
 
@@ -172,8 +183,8 @@ var Box = function() {
         // Sorts all the elements in this box based on their values on the
         // longest axis.
 
-        var a           = get_longest_axis().axis;
-        var sort_method = get_comparison_func( a );
+        var a           = get_longest_axis().axis,
+            sort_method = get_comparison_func( a );
 
         data.sort( sort_method );
 
@@ -204,13 +215,11 @@ var Box = function() {
 
         sort();
 
-        var med   = median_pos();
-
-        var data1 = data.slice( 0, med );   // elements 0 through med
-        var data2 = data.slice( med );      // elements med through end
-
-        var box1  = Box();
-        var box2  = Box();
+        var med   = median_pos(),
+            data1 = data.slice( 0, med ),   // elements 0 through med
+            data2 = data.slice( med ),      // elements med through end
+            box1  = Box(),
+            box2  = Box();
 
         box1.init( data1 );
         box2.init( data2 );
@@ -223,11 +232,12 @@ var Box = function() {
 
         // Returns the average value of the data in this box
 
-        var avg_r = 0;
-        var avg_g = 0;
-        var avg_b = 0;
+        var avg_r = 0,
+            avg_g = 0,
+            avg_b = 0,
+            i;
 
-        for( var i = data.length - 1; i >= 0; --i ) {
+        for( i = data.length - 1; i >= 0; --i ) {
             avg_r += data[i][0];
             avg_g += data[i][1];
             avg_b += data[i][2];
@@ -264,11 +274,12 @@ var Box = function() {
         // initialize the min value to the highest number possible, and the
         // max value to the lowest number possible
 
-        var minmax = [ { min: Number.MAX_VALUE, max: Number.MIN_VALUE },
+        var i,
+            minmax = [ { min: Number.MAX_VALUE, max: Number.MIN_VALUE },
                        { min: Number.MAX_VALUE, max: Number.MIN_VALUE },
                        { min: Number.MAX_VALUE, max: Number.MIN_VALUE } ];
 
-        for( var i = data.length - 1; i >= 0; --i ) {
+        for( i = data.length - 1; i >= 0; --i ) {
 
             minmax[0].min = ( data[i][0] < minmax[0].min ) ? 
                               data[i][0] : minmax[0].min; // r
@@ -294,10 +305,12 @@ var Box = function() {
         // Returns the longest (aka "widest") axis of the data in this box.
 
         var longest_axis = 0,
-            longest_axis_size = 0;
+            longest_axis_size = 0
+            i,
+            axis_size;
 
-        for( var i = dim - 1; i >= 0; --i ) {
-            var axis_size = box[i].max - box[i].min;
+        for( i = dim - 1; i >= 0; --i ) {
+            axis_size = box[i].max - box[i].min;
             if( axis_size > longest_axis_size ) {
                 longest_axis      = i;
                 longest_axis_size = axis_size;
