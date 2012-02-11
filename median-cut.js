@@ -27,6 +27,8 @@
 //  4. Repeat the above process until the original color space has been divided
 //     into N regions where N is the number of colors you want.
 
+var MEDIAN_CUT_DEBUG = true;
+
 var MedianCut = function() {
 
     var boxes,
@@ -154,9 +156,12 @@ var MedianCut = function() {
 
 var Box = function() {
 
-    var data, // it's all about the data
-        box,  // the bounding box of the data
-        dim,  // number of dimensions in the data
+    // TODO: memoize all functions beginning with "get_".  Use for-in loop.
+    // get_longest_axis gets called twice now, and others may also.
+
+    var data,                 // it's all about the data
+        box,                  // the bounding box of the data
+        dim,                  // number of dimensions in the data
 
     init = function( _data ) {
 
@@ -215,7 +220,7 @@ var Box = function() {
 
         sort();
 
-        var med   = median_pos(),
+        var med   = mean_pos(),
             data1 = data.slice( 0, med ),   // elements 0 through med
             data2 = data.slice( med ),      // elements med through end
             box1  = Box(),
@@ -250,6 +255,37 @@ var Box = function() {
         return [ parseInt( avg_r ),
                  parseInt( avg_g ),
                  parseInt( avg_b ) ];
+
+    },
+
+    mean_pos = function() {
+
+        // Returns the position of the median value of the data in
+        // this box.  The position number is rounded down, to deal
+        // with cases when the data has an odd number of elements.
+
+        var mean_i,
+            mean = 0,
+            smallest_diff = Number.MAX_VALUE,
+            axis = get_longest_axis().axis,
+            i;
+
+        // sum all the data along the longest axis...
+        for( i = data.length - 1; i >= 0; --i ) { mean += data[i][axis]; }
+        mean /= data.length;
+
+        // find the data point that is closest to the mean
+        for( i = data.length - 1; i >= 0; --i ) {
+            diff = Math.abs( data[i][axis] - mean );
+            if( diff < smallest_diff ) {
+                smallest_diff = diff;
+                mean_i = i;
+            }
+        }
+
+        // return the index of the data point closest to the mean
+
+        return mean_i;
 
     },
 
@@ -305,7 +341,7 @@ var Box = function() {
         // Returns the longest (aka "widest") axis of the data in this box.
 
         var longest_axis = 0,
-            longest_axis_size = 0
+            longest_axis_size = 0,
             i,
             axis_size;
 
@@ -333,6 +369,7 @@ var Box = function() {
         /**/
 
         // These are exposed (public) functions
+        mean_pos         : mean_pos,
         split            : split,
         get_longest_axis : get_longest_axis,
         average          : average,
