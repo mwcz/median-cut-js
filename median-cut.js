@@ -122,13 +122,29 @@ var MedianCut = function() {
 
             // remove the longest box and split it
             box_to_split = boxes.splice( longest_box_index, 1 )[0];
-            split_boxes = box_to_split.split();
-            box1 = split_boxes[0];
-            box2 = split_boxes[1];
 
-            // then push the resulting boxes into the boxes array
-            boxes.push( box1 );
-            boxes.push( box2 );
+            // TODO: If the box is large enough to be split, split it.
+            // Otherwise, push the box itself onto the boxes stack.  This is
+            // probably *non-desireable* behavior (i.e. it doesn't behave as
+            // the median cut algorithm should), but it's a side effect of
+            // requiring a fixed size palette.
+
+            if( box_to_split.is_splittable() ) {
+
+                // split the box and push both new boxes
+                split_boxes = box_to_split.split();
+                boxes.push( split_boxes[0] );
+                boxes.push( split_boxes[1] );
+
+            }
+            else {
+                // else... the box is too small to be split.  Push it into the
+                // set of boxes twice in order to guarantee the fixed-size
+                // palette.
+                boxes.push( box_to_split );
+                boxes.push( box_to_split );
+            }
+
         }
 
         // palette is complete.  get the average colors from each box
@@ -299,6 +315,20 @@ var Box = function() {
 
     },
 
+    is_empty = function() {
+
+        // Self-explanatory
+
+        return data.length === 0;
+    },
+
+    is_splittable = function() {
+
+        // A box is considered splittable if it has two or more items.
+
+        return data.length >= 2;
+    },
+
     get_bounding_box = function() {
         // Getter for the bounding box
         return box;
@@ -360,17 +390,19 @@ var Box = function() {
     return {
 
         /**/ // these are private functions
-        //get_data               : get_data,
-        //median_pos             : median_pos,
-        //get_bounding_box       : get_bounding_box,
-        //calculate_bounding_box : calculate_bounding_box,
-        //sort                   : sort,
-        //get_comparison_func    : get_comparison_func,
         /**/
+        get_data               : get_data,
+        median_pos             : median_pos,
+        get_bounding_box       : get_bounding_box,
+        calculate_bounding_box : calculate_bounding_box,
+        sort                   : sort,
+        get_comparison_func    : get_comparison_func,
 
         // These are exposed (public) functions
         mean_pos         : mean_pos,
         split            : split,
+        is_empty         : is_empty,
+        is_splittable    : is_splittable,
         get_longest_axis : get_longest_axis,
         average          : average,
         init             : init
