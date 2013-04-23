@@ -76,8 +76,7 @@ var MedianCut = function() {
             box_to_split,
             split_boxes,
             box1,
-            box2,
-            i;
+            box2;
 
         do {
 
@@ -91,7 +90,7 @@ var MedianCut = function() {
             boxes.push( box1 );
             boxes.push( box2 );
 
-            longest_box_index = get_longest_box_index()
+            longest_box_index = get_longest_box_index();
             longest_axis      = boxes[ longest_box_index ].get_longest_axis();
 
         }
@@ -111,6 +110,7 @@ var MedianCut = function() {
 
         var values = [],
             i,
+            longest_box_index,
             box_to_split,
             split_boxes,
             box1,
@@ -166,7 +166,7 @@ var MedianCut = function() {
         // These are exposed (public) functions
         init                     : init,
         get_fixed_size_palette   : get_fixed_size_palette,
-        get_dynamic_size_palette : get_dynamic_size_palette,
+        get_dynamic_size_palette : get_dynamic_size_palette
     };
 };
 
@@ -284,6 +284,7 @@ var Box = function() {
             mean = 0,
             smallest_diff = Number.MAX_VALUE,
             axis = get_longest_axis().axis,
+            diff,
             i;
 
         // sum all the data along the longest axis...
