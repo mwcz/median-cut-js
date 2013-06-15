@@ -268,9 +268,9 @@ var Box = function() {
         avg_g /= data.length;
         avg_b /= data.length;
 
-        return [ parseInt( avg_r ),
-                 parseInt( avg_g ),
-                 parseInt( avg_b ) ];
+        return [ parseInt( avg_r, 10 ),
+                 parseInt( avg_g, 10 ),
+                 parseInt( avg_b, 10 ) ];
 
     },
 
