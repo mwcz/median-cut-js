@@ -52,8 +52,8 @@ function MedianCut() {
             // initialize the min value to the highest number possible, and the
             // max value to the lowest number possible
 
-            var i,
-                minmax = [ { min: Number.MAX_VALUE, max: Number.MIN_VALUE },
+            var i;
+            var minmax = [ { min: Number.MAX_VALUE, max: Number.MIN_VALUE },
                            { min: Number.MAX_VALUE, max: Number.MIN_VALUE },
                            { min: Number.MAX_VALUE, max: Number.MIN_VALUE } ];
 
@@ -102,10 +102,10 @@ function MedianCut() {
 
             // Returns the longest (aka "widest") axis of the data in this box.
 
-            var longest_axis = 0,
-                longest_axis_size = 0,
-                i,
-                axis_size;
+            var longest_axis = 0;
+            var longest_axis_size = 0;
+            var i;
+            var axis_size;
 
             for( i = dim - 1; i >= 0; i -= 1 ) {
                 axis_size = box[i].max - box[i].min;
@@ -139,8 +139,8 @@ function MedianCut() {
             // Sorts all the elements in this box based on their values on the
             // longest axis.
 
-            var a           = get_longest_axis().axis,
-                sort_method = get_comparison_func( a );
+            var a           = get_longest_axis().axis;
+            var sort_method = get_comparison_func( a );
 
             data.sort( sort_method );
 
@@ -154,12 +154,12 @@ function MedianCut() {
             // this box.  The position number is rounded down, to deal
             // with cases when the data has an odd number of elements.
 
-            var mean_i,
-                mean = 0,
-                smallest_diff = Number.MAX_VALUE,
-                axis = get_longest_axis().axis,
-                diff,
-                i;
+            var mean_i;
+            var mean = 0;
+            var smallest_diff = Number.MAX_VALUE;
+            var axis = get_longest_axis().axis;
+            var diff;
+            var i;
 
             // sum all the data along the longest axis...
             for( i = data.length - 1; i >= 0; i -= 1 ) { mean += data[i][axis]; }
@@ -188,11 +188,11 @@ function MedianCut() {
 
             sort();
 
-            var med   = mean_pos(),
-                data1 = data.slice( 0, med ),   // elements 0 through med
-                data2 = data.slice( med ),      // elements med through end
-                box1  = Box(),
-                box2  = Box();
+            var med   = mean_pos();
+            var data1 = data.slice( 0, med ); // elements 0 through med
+            var data2 = data.slice( med );    // elements med through end
+            var box1  = Box();
+            var box2  = Box();
 
             box1.init( data1 );
             box2.init( data2 );
@@ -205,10 +205,10 @@ function MedianCut() {
 
             // Returns the average value of the data in this box
 
-            var avg_r = 0,
-                avg_g = 0,
-                avg_b = 0,
-                i;
+            var avg_r = 0;
+            var avg_g = 0;
+            var avg_b = 0;
+            var i;
 
             for( i = data.length - 1; i >= 0; i -= 1 ) {
                 avg_r += data[i][0];
@@ -290,8 +290,8 @@ function MedianCut() {
     function get_longest_box_index() {
 
         // find the box with the longest axis of them all...
-        var longest_box_index = 0,
-            box_index;
+        var longest_box_index = 0;
+        var box_index;
 
         for( box_index = boxes.length - 1; box_index >= 0; box_index -= 1 ) {
             if( boxes[ box_index ] > longest_box_index ) {
@@ -313,15 +313,15 @@ function MedianCut() {
         // will be in the resulting palette.  lower values of threshold
         // will result in a smaller palette size.
 
-        var values = [],
-            i,
-            longest_box_index = get_longest_box_index(),
-            longest_axis      = boxes[ longest_box_index ].get_longest_axis(),
-            max_box_length    = longest_axis.length * ( 1 - _threshold ),
-            box_to_split,
-            split_boxes,
-            box1,
-            box2;
+        var values = [];
+        var i;
+        var longest_box_index = get_longest_box_index();
+        var longest_axis      = boxes[ longest_box_index ].get_longest_axis();
+        var max_box_length    = longest_axis.length * ( 1 - _threshold );
+        var box_to_split;
+        var split_boxes;
+        var box1;
+        var box2;
 
         do {
 
@@ -353,13 +353,13 @@ function MedianCut() {
 
     function get_fixed_size_palette( _number ) {
 
-        var values = [],
-            i,
-            longest_box_index,
-            box_to_split,
-            split_boxes,
-            box1,
-            box2;
+        var values = [];
+        var i;
+        var longest_box_index;
+        var box_to_split;
+        var split_boxes;
+        var box1;
+        var box2;
 
         for( i = _number - 1; i >= 0; i -= 1 ) {
 
