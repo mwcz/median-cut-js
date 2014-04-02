@@ -205,24 +205,24 @@ function MedianCut() {
 
             // Returns the average value of the data in this box
 
-            var avg_r = 0;
-            var avg_g = 0;
-            var avg_b = 0;
+            console.time('average');
+
             var i;
+            var avg      = SIMD.float32x4.zero();
+            var length   = SIMD.float32x4(data.length, data.length, data.length, 1);
+            var d, data_set;
 
             for( i = data.length - 1; i >= 0; i -= 1 ) {
-                avg_r += data[i][0];
-                avg_g += data[i][1];
-                avg_b += data[i][2];
+                d        = data[i];
+                data_set = SIMD.float32x4(d[0], d[1], d[2], 0);
+                avg      = SIMD.float32x4.add(avg, data_set);
             }
 
-            avg_r /= data.length;
-            avg_g /= data.length;
-            avg_b /= data.length;
+            avg = SIMD.float32x4.div(avg, length);
 
-            return [ parseInt( avg_r, 10 ),
-                     parseInt( avg_g, 10 ),
-                     parseInt( avg_b, 10 ) ];
+            console.timeEnd('average');
+
+            return [ avg.x, avg.y, avg.z ];
 
         }
 
