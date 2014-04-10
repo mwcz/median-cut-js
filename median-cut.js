@@ -142,7 +142,7 @@ function MedianCut() {
             var a           = get_longest_axis().axis;
             var sort_method = get_comparison_func( a );
 
-            data.sort( sort_method );
+            Array.prototype.sort.call( data, sort_method );
 
             return data;
 
@@ -189,8 +189,8 @@ function MedianCut() {
             sort();
 
             var med   = mean_pos();
-            var data1 = data.slice( 0, med ); // elements 0 through med
-            var data2 = data.slice( med );    // elements med through end
+            var data1 = Array.prototype.slice.call( data, 0, med ); // elements 0 through med
+            var data2 = Array.prototype.slice.call( data, med );    // elements med through end
             var box1  = Box();
             var box2  = Box();
 
