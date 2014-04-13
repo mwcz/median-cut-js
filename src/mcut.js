@@ -342,9 +342,7 @@
             var i;
             var longest_box_index;
             var longest_axis;
-            var size_factor;
             var min_box_length;
-            var max_palette_size;
             var box_to_split;
             var split_boxes;
             var box1;
