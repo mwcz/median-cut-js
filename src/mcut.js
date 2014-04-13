@@ -276,21 +276,37 @@
         'use strict';
 
         var boxes = [];
+        var data  = [];
 
+        function init_boxes( _data ) {
 
-        function is_valid_data( data ) {
+            var succeeded = false;
 
-            var has_length = data.length > 0;
+            if ( is_valid_data( _data ) ) {
+                var box1 = new Box();
+                box1.init( _data );
+                boxes = [ box1 ];
+                succeeded = true;
+            }
+
+            return succeeded;
+
+        }
+
+        function is_valid_data( _data ) {
+
+            var has_length = _data.length > 0;
+
             return has_length;
 
         }
 
-        function init( data ) {
+        function init( _data ) {
 
-            if ( is_valid_data( data ) ) {
-                var box1 = new Box();
-                box1.init( data );
-                boxes = [ box1 ];
+            var boxes_init_success = init_boxes( _data );
+
+            if (boxes_init_success) {
+                data = _data;
             }
 
         }
@@ -333,6 +349,8 @@
             var split_boxes;
             var box1;
             var box2;
+
+            init_boxes( data );
 
             // If there isn't any data, return early
             if (boxes.length === 0) {
@@ -391,6 +409,8 @@
             var longest_box_index;
             var box_to_split;
             var split_boxes;
+
+            init_boxes( data );
 
             // If there isn't any data, return early
             if (boxes.length === 0) {
