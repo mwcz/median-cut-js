@@ -1,4 +1,4 @@
-/* globals describe, beforeEach, expect, it, MCut */
+/* globals describe, beforeEach, expect, it, MCut, Uint32Array, Uint16Array, Uint8Array, Uint8ClampedArray */
 
 /*********************************************************************
  *                          CUSTOM MATCHERS                          *
@@ -162,6 +162,31 @@ describe('MCut.get_dynamic_size_palette', function() {
         expect(result4.length).toBeGreaterThanOrEqualTo(result3.length);
         expect(result3.length).toBeGreaterThanOrEqualTo(result2.length);
         expect(result2.length).toBeGreaterThanOrEqualTo(result1.length);
+    });
+
+    it('accepts typed arrays', function() {
+        var data_uint32 = [new Uint32Array(181, 156, 126), new Uint32Array(215, 239, 132), new Uint32Array(187, 153, 243), new Uint32Array(209, 139, 195), new Uint32Array(120, 112, 236), new Uint32Array(6, 84, 188), new Uint32Array(69, 72, 100), new Uint32Array(41, 83, 117), new Uint32Array(230, 228, 239), new Uint32Array(199, 67, 44), new Uint32Array(59, 240, 19), new Uint32Array(27, 149, 165), new Uint32Array(194, 106, 149), new Uint32Array(171, 81, 210), new Uint32Array(2, 50, 224), new Uint32Array(27, 124, 141), new Uint32Array(221, 107, 212), new Uint32Array(128, 108, 118), new Uint32Array(62, 159, 18), new Uint32Array(111, 177, 17)];
+        var data_uint16 = [new Uint16Array(181, 156, 126), new Uint16Array(215, 239, 132), new Uint16Array(187, 153, 243), new Uint16Array(209, 139, 195), new Uint16Array(120, 112, 236), new Uint16Array(6, 84, 188), new Uint16Array(69, 72, 100), new Uint16Array(41, 83, 117), new Uint16Array(230, 228, 239), new Uint16Array(199, 67, 44), new Uint16Array(59, 240, 19), new Uint16Array(27, 149, 165), new Uint16Array(194, 106, 149), new Uint16Array(171, 81, 210), new Uint16Array(2, 50, 224), new Uint16Array(27, 124, 141), new Uint16Array(221, 107, 212), new Uint16Array(128, 108, 118), new Uint16Array(62, 159, 18), new Uint16Array(111, 177, 17)];
+        var data_uint8  = [new Uint8Array(181, 156, 126), new Uint8Array(215, 239, 132), new Uint8Array(187, 153, 243), new Uint8Array(209, 139, 195), new Uint8Array(120, 112, 236), new Uint8Array(6, 84, 188), new Uint8Array(69, 72, 100), new Uint8Array(41, 83, 117), new Uint8Array(230, 228, 239), new Uint8Array(199, 67, 44), new Uint8Array(59, 240, 19), new Uint8Array(27, 149, 165), new Uint8Array(194, 106, 149), new Uint8Array(171, 81, 210), new Uint8Array(2, 50, 224), new Uint8Array(27, 124, 141), new Uint8Array(221, 107, 212), new Uint8Array(128, 108, 118), new Uint8Array(62, 159, 18), new Uint8Array(111, 177, 17)];
+        var data_uint8c = [new Uint8ClampedArray(181, 156, 126), new Uint8ClampedArray(215, 239, 132), new Uint8ClampedArray(187, 153, 243), new Uint8ClampedArray(209, 139, 195), new Uint8ClampedArray(120, 112, 236), new Uint8ClampedArray(6, 84, 188), new Uint8ClampedArray(69, 72, 100), new Uint8ClampedArray(41, 83, 117), new Uint8ClampedArray(230, 228, 239), new Uint8ClampedArray(199, 67, 44), new Uint8ClampedArray(59, 240, 19), new Uint8ClampedArray(27, 149, 165), new Uint8ClampedArray(194, 106, 149), new Uint8ClampedArray(171, 81, 210), new Uint8ClampedArray(2, 50, 224), new Uint8ClampedArray(27, 124, 141), new Uint8ClampedArray(221, 107, 212), new Uint8ClampedArray(128, 108, 118), new Uint8ClampedArray(62, 159, 18), new Uint8ClampedArray(111, 177, 17)];
+        var mc = new MCut();
+
+        mc.init(data_uint32);
+        var result_uint32 = mc.get_dynamic_size_palette(0.0);
+
+        mc.init(data_uint16);
+        var result_uint16 = mc.get_dynamic_size_palette(0.0);
+
+        mc.init(data_uint8);
+        var result_uint8  = mc.get_dynamic_size_palette(0.0);
+
+        mc.init(data_uint8c);
+        var result_uint8c = mc.get_dynamic_size_palette(0.0);
+
+        expect(result_uint32).toEqual([[44, 126, 109], [186, 136, 173]]);
+        expect(result_uint16).toEqual([[44, 126, 109], [186, 136, 173]]);
+        expect(result_uint8 ).toEqual([[44, 126, 109], [186, 136, 173]]);
+        expect(result_uint8c).toEqual([[44, 126, 109], [186, 136, 173]]);
     });
 
 });
