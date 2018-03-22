@@ -10,5 +10,5 @@ median-cut.js was created for use in [ColorPal](http://mwcz.org/2012/01/16/color
 USAGE
 -----
 
-Coming soon.
+Coming soon. [he said on Feb 10, 2012]
 
