@@ -1,0 +1,49 @@
+{
+  "name": "median-cut-ts",
+  "version": "1.0.0",
+  "description": "The median-cut algorithm implemented in TypeScript.",
+  "main": "dist/mcut.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "karma"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mwcz/median-cut-js.git"
+  },
+  "author": "mwcz <mwc@clayto.com>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/mwcz/median-cut-js/issues"
+  },
+  "homepage": "https://github.com/mwcz/median-cut-js#readme",
+  "private": true,
+  "devDependencies": {
+    "@types/jest": "^24.0.23",
+    "awesome-typescript-loader": "^5.2.1",
+    "eslint": "6.6.0",
+    "eslint-config-prettier": "6.5.0",
+    "eslint-plugin-prettier": "3.1.1",
+    "husky": "3.0.9",
+    "jasmine-core": "^3.5.0",
+    "jest": "^24.9.0",
+    "karma": "^4.4.1",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-firefox-launcher": "^1.2.0",
+    "karma-jasmine": "^2.0.1",
+    "karma-typescript": "3.0.8",
+    "prettier": "1.19.1",
+    "pretty-quick": "2.0.1",
+    "source-map-loader": "^0.2.4",
+    "ts-jest": "^24.1.0",
+    "typescript": "^3.7.2",
+    "typescript-eslint-parser": "^22.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  }
+}
